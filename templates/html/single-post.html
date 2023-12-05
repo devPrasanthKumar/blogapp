@@ -1,0 +1,215 @@
+{% extends 'html/base.html'%} 
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block content %} 
+
+        <div class="position-relative">
+          <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
+          <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
+          <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
+
+          <a href="#" class="mx-2 js-search-open"
+            ><span class="bi-search"></span
+          ></a>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+
+          <!-- ======= Search Form ======= -->
+          <div class="search-form-wrap js-search-form-wrap">
+            <form action="search-result.html" class="search-form">
+              <span class="icon bi-search"></span>
+              <input type="text" placeholder="Search" class="form-control" />
+              <button class="btn js-search-close">
+                <span class="bi-x"></span>
+              </button>
+            </form>
+          </div>
+          <!-- End Search Form -->
+        </div>
+      </div>
+    </header>
+    <!-- End Header -->
+
+    <main id="main">
+      <section class="single-post-content">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9 post-content" data-aos="fade-up">
+              <!-- ======= Single Post Content ======= -->
+              <div class="single-post">
+                <div class="post-meta">
+                  <span class="date">{{onepost.category}}</span>
+                  <span class="mx-1">&bullet;</span> <span>{{onepost.upload_at}}</span>
+                </div>
+                <h1 class="mb-5">
+                 {{onepost.title}}
+                </h1>
+                
+                <figure class="offset-lg-3">
+                  <img
+                    src="{{onepost.image.url}}"
+                    alt=""
+                    class="img-fluid col-lg-7"  />
+                  
+                </figure>
+                <p class="">
+                  {{onepost.description }}
+                </p>
+
+                             </figure>
+                              </div>
+              <!-- End Single Post Content -->
+
+              <!-- ======= Comments ======= -->
+              <div class="comments">
+                <h5 class="comment-title py-4">{{countAllComment}} Comments</h5>
+                {% for commentdata in commentData %}
+                <div class="comment d-flex mb-4">
+                  <div class="flex-shrink-0">
+                    <div class="avatar avatar-sm rounded-circle">
+                      <img
+                        class="avatar-img"
+                        src="{{comentdata.image.url}}"
+                        alt=""
+                        class="img-fluid" />
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-2 ms-sm-3">
+                    <div class="comment-meta d-flex align-items-baseline">
+                      <h6 class="me-2">{{commentdata.commentUser.username}}</h6>
+                      <span class="text-muted"></span>
+                    </div>
+                    <div class="comment-body">
+                     {{commentdata.comment}}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <!-- End Comments -->
+
+              <!-- ======= Comments Form ======= -->
+              <div class="row justify-content-center mt-5">
+                <div class="col-lg-12">
+                  <h5 class="comment-title">Leave a Comment</h5>
+                  <div class="row">
+                  <form action="" method="post">
+                    {% csrf_token %}
+                  <div class="col-12 mb-3">
+                    
+                      {{form|crispy}}
+
+                  </div>
+                    <div class="col-12">
+                      <input
+                        type="submit"
+                        class="btn btn-primary"
+                        value="Post comment" />
+                    </div>
+                  </div>
+                  </form>
+                </div>
+              </div>
+              <!-- End Comments Form -->
+            </div>
+            <div class="col-md-3">
+              <!-- ======= Sidebar ======= -->
+              <div class="aside-block">
+                <ul
+                  class="nav nav-pills custom-tab-nav mb-4"
+                  id="pills-tab"
+                  role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link active"
+                      id="pills-popular-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-popular"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-popular"
+                      aria-selected="true">
+                      Popular
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="pills-trending-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-trending"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-trending"
+                      aria-selected="false">
+                      Trending
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="pills-latest-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-latest"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-latest"
+                      aria-selected="false">
+                      Latest
+                    </button>
+                  </li>
+                </ul>
+
+                <!-- start -->
+                <div class="tab-content" id="pills-tabContent">
+                  <!-- Popular -->
+                  <!-- inner start -->
+                  {% for showall in showalldata %}
+                  <div
+                    class="tab-pane fade show active"
+                    id="pills-popular"
+                    role="tabpanel"
+                    aria-labelledby="pills-popular-tab">
+                    <div class="post-entry-1 border-bottom">
+                      <div class="post-meta">
+                       <span class="date">{{showall.category}}</span>
+                        <span class="mx-1">&bullet;</span>
+                        <span>{{showall.upload_at}}</span>
+                      </div>
+                      <h2 class="mb-2">
+                        <a href="{% url 'single-post-view' showall.slug %}"
+                          >{{showall.title | truncatewords:20}}</a
+                        >
+                      </h2>
+                      <span class="author mb-3 d-block">{{showall.author}}</span>
+                    </div>
+
+                    {% endfor%}
+                    <!-- inner end -->
+            
+                </div>
+              </div>
+
+                <div class="aside-block">
+                <h3 class="aside-title">Categories</h3>
+                {% for category in showallCategory %}
+                <ul class="aside-links list-unstyled">
+                  <li>
+                    <a href="{% url 'categoryewise' category.slug %}"
+                      ><i class="bi bi-chevron-right"></i>{{category.category}} </a
+                    >
+                  </li>
+                </ul>
+                {% endfor %}
+              </div>
+              <!-- End Categories -->
+              </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- End #main -->
+
+  </body>
+</html>
+{% endblock %}
